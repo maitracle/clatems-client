@@ -15,7 +15,7 @@ function useAuthenticate() {
 
   const authSignIn = useCallback(() => {
     if (token) {
-      setHttpHeader('Authorization', `Token ${token}`);
+      setHttpHeader('Authorization', `Bearer ${token}`);
       dispatch(fetchMyUser.request());
     } else {
       setHttpHeader('Authorization', null);

@@ -24,8 +24,6 @@ const SignForm = ({ signAction }: Props) => {
   const [formData, setFormData] = useState<SignRequestPayload>({
     email: '',
     password: '',
-    name: '',
-    phone: '',
   });
 
   const setFormDataFactory = (key: SignRequestPayloadKeys) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,26 +60,6 @@ const SignForm = ({ signAction }: Props) => {
           onChange={setFormDataFactory(SignRequestPayloadKeys.password)}
         />
       </InputWrapper>
-
-      {
-        signAction === signUp && <div>
-          name:
-          <input
-            value={formData.name}
-            onChange={setFormDataFactory(SignRequestPayloadKeys.name)}
-          />
-        </div>
-      }
-
-      {
-        signAction === signUp && <div>
-          phone:
-          <input
-            value={formData.phone}
-            onChange={setFormDataFactory(SignRequestPayloadKeys.phone)}
-          />
-        </div>
-      }
 
       <ButtonWrapper>
         <Button onClick={handleSignAction}>

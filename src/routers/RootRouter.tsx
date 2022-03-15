@@ -1,9 +1,10 @@
-import React, { ReactNode } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Sign from 'pages/Sign';
-import Home from 'pages/Home';
-import ErrorPage from 'pages/ErrorPage';
-import CreateArtworkPage from 'pages/CreateArtworkPage';
+import React, { ReactNode } from 'react'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Home from 'pages/Home'
+import ErrorPage from 'pages/ErrorPage'
+import CreateArtworkPage from 'pages/CreateArtworkPage'
+import SignUpPage from 'pages/SignUpPage'
+import SignInPage from 'pages/SignInPage'
 
 
 const RootRouter = ({ children }: { children: ReactNode }) => {
@@ -13,12 +14,13 @@ const RootRouter = ({ children }: { children: ReactNode }) => {
       {children}
       <Switch>
         <Route path='/' exact component={Home} />
-        <Route path='/sign' exact component={Sign} />
+        <Route path='/sign-up' exact component={SignUpPage} />
+        <Route path='/sign-in' exact component={SignInPage} />
         <Route path='/artworks/create' exact component={CreateArtworkPage} />
         <Route component={ErrorPage} />
       </Switch>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default RootRouter;
+export default RootRouter
