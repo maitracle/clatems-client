@@ -19,6 +19,8 @@ export type ArtworkType = {
   title: string;
   description: string;
   metadataUrl: string;
+  authorName: string;
+  authorDescription: string;
   imageUrl: string;
   transactionHash: string;
   createdAt: string;
@@ -29,6 +31,8 @@ export type ArtworkType = {
 export type CreateArtworkPayload = {
   title: string;
   description: string;
+  authorName: string;
+  authorDescription: string;
   metadataUrl: string;
   imageUrl: string;
 }

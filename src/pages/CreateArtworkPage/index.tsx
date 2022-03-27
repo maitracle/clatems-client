@@ -14,11 +14,16 @@ const CreateArtworkPage = () => {
     image: File | null,
     title: string,
     description: string,
+    authorName: string,
+    authorDescription: string,
   }>({
     image: null,
     title: '',
     description: '',
+    authorName: '',
+    authorDescription: '',
   })
+
   const [isCreating, setIsCreating] = useState(false)
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +93,8 @@ const CreateArtworkPage = () => {
       dispatch(createArtwork.request({
         title: imageInfo.title,
         description: imageInfo.description,
+        authorName: imageInfo.authorName,
+        authorDescription: imageInfo.authorDescription,
         metadataUrl: metadataUrl,
         imageUrl: imageUrl,
       }))
@@ -125,6 +132,14 @@ const CreateArtworkPage = () => {
 
         <div>
           description: <input name='description' onChange={handleFieldChange} />
+        </div>
+
+        <div>
+          author name: <input name='authorName' onChange={handleFieldChange} />
+        </div>
+
+        <div>
+          author description: <input  name='authorDescription' onChange={handleFieldChange} />
         </div>
 
         <div>
