@@ -1,10 +1,11 @@
 import { ActionType } from 'typesafe-actions'
-import { clearArtworkReducer, createArtwork, fetchArtworkList } from './actions'
+import { clearArtworkReducer, createArtwork, fetchArtworkList, fetchMyArtworkList } from './actions'
 
 
 export type ArtworkActions =
   | ActionType<typeof createArtwork>
   | ActionType<typeof fetchArtworkList>
+  | ActionType<typeof fetchMyArtworkList>
   | ActionType<typeof clearArtworkReducer>
 
 export type ArtworkStateType = {

@@ -2,18 +2,22 @@ import React, { useEffect } from 'react'
 import styled from '@emotion/styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { GrayColors } from 'styles/colors'
-import { fetchArtworkList } from 'store/Artwork/actions'
+import { fetchArtworkList, fetchMyArtworkList } from 'store/Artwork/actions'
 import { RootState } from 'store'
 import ArtworkItem from './ArtworkItem'
 
 
-const ArtworkList = () => {
+type Props = {
+  fetchAction: typeof fetchArtworkList | typeof fetchMyArtworkList
+}
+
+const ArtworkList = ({ fetchAction }: Props) => {
   const dispatch = useDispatch()
   const { artworkList } = useSelector((state: RootState) => state.artwork)
 
   useEffect(() => {
-    dispatch(fetchArtworkList.request())
-  }, [dispatch])
+    dispatch(fetchAction.request())
+  }, [dispatch, fetchAction])
 
 
   return (

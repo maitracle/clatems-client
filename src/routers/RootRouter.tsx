@@ -7,6 +7,7 @@ import CreateArtworkPage from 'pages/CreateArtworkPage'
 import SignUpPage from 'pages/SignUpPage'
 import SignInPage from 'pages/SignInPage'
 import ArtworkListPage from 'pages/ArtworkListPage'
+import MyArtworkListPage from 'pages/MyArtworkListPage'
 
 
 const RootRouter = ({ children }: { children: ReactNode }) => {
@@ -19,6 +20,7 @@ const RootRouter = ({ children }: { children: ReactNode }) => {
         <Route path='/sign-up' exact component={SignUpPage} />
         <Route path='/sign-in' exact component={SignInPage} />
         <AuthenticatedRoute path='/artworks/create' exact component={CreateArtworkPage} />
+        <AuthenticatedRoute path='/artworks/my' exact component={MyArtworkListPage} />
         <Route path='/artworks' exact component={ArtworkListPage} />
         <Route component={ErrorPage} />
       </Switch>

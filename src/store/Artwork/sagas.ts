@@ -1,6 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { request } from 'utils/request'
-import { CREATE_ARTWORK_REQUEST, createArtwork, FETCH_ARTWORK_LIST_REQUEST, fetchArtworkList } from './actions'
+import {
+  CREATE_ARTWORK_REQUEST,
+  createArtwork,
+  FETCH_ARTWORK_LIST_REQUEST,
+  FETCH_MY_ARTWORK_LIST_REQUEST,
+  fetchArtworkList,
+} from './actions'
 import { CreateArtworkPayload } from './types'
 
 
@@ -37,7 +43,24 @@ function* fetchArtworkListAsync() {
   }
 }
 
+const fetchMyArtworkListApi = () => request({
+  url: '/artworks/my',
+  method: 'GET',
+})
+
+function* fetchMyArtworkListAsync() {
+  try {
+    const response = yield call(fetchMyArtworkListApi)
+
+    yield put(fetchArtworkList.success(response.data))
+  } catch (e) {
+
+    yield put(fetchArtworkList.failure())
+  }
+}
+
 export function* watchArtwork() {
   yield takeEvery(CREATE_ARTWORK_REQUEST, createArtworkAsync)
   yield takeEvery(FETCH_ARTWORK_LIST_REQUEST, fetchArtworkListAsync)
+  yield takeEvery(FETCH_MY_ARTWORK_LIST_REQUEST, fetchMyArtworkListAsync)
 }
