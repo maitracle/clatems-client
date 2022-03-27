@@ -40,33 +40,56 @@ const CreateArtworkPage = () => {
     }))
   }
 
+  const uploadImage = async () => {
+    const nftStorageUploadImageUrl = 'https://api.nft.storage/upload'
+
+    let formData = new FormData()
+    formData.append('file', imageInfo.image as File)
+
+    const result = await axios.post(nftStorageUploadImageUrl, formData, {
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_NFT_STORAGE_KEY}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+
+    return `https://ipfs.io/ipfs/${result.data.value.cid}/${imageInfo.image?.name}`
+  }
+
+  const uploadMetadata = async (imageUrl: string) => {
+    const nftStorageUploadMetadataUrl = 'https://api.nft.storage/store'
+
+    let formData = new FormData()
+    const payload = {
+      title: imageInfo.title,
+      description: imageInfo.description,
+      image: imageUrl,
+    }
+
+    formData.append('meta', JSON.stringify(payload))
+
+    const result = await axios.post(nftStorageUploadMetadataUrl, formData, {
+      headers: {
+        'Authorization': `Bearer ${process.env.REACT_APP_NFT_STORAGE_KEY}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+
+    return 'https://ipfs.io/ipfs/' + result.data.value.url.replace('ipfs://', '')
+  }
+
   const storeNFT = async () => {
     setIsCreating(true)
-    const nftStorageUrl = 'https://api.nft.storage/store'
 
     if (process.env.REACT_APP_NFT_STORAGE_KEY && !!imageInfo.image && imageInfo.title && imageInfo.description) {
-      let formData = new FormData()
-      const payload = {
-        title: imageInfo.title,
-        description: imageInfo.description,
-      }
-
-      formData.append('image', imageInfo.image as File)
-      formData.append('meta', JSON.stringify(payload))
-
-      const result = await axios.post(nftStorageUrl, formData, {
-        headers: {
-          'Authorization': `Bearer ${process.env.REACT_APP_NFT_STORAGE_KEY}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-
-      const metadataUrl = 'https://ipfs.io/ipfs/' + result.data.value.url.replace('ipfs://', '')
+      const imageUrl = await uploadImage()
+      const metadataUrl = await uploadMetadata(imageUrl)
 
       dispatch(createArtwork.request({
         title: imageInfo.title,
         description: imageInfo.description,
         metadataUrl: metadataUrl,
+        imageUrl: imageUrl,
       }))
     }
   }
@@ -106,6 +129,9 @@ const CreateArtworkPage = () => {
 
         <div>
           <button onClick={storeNFT} disabled={isCreating}>submit</button>
+        </div>
+        <div>
+          <button onClick={uploadImage} disabled={isCreating}>uploadImage</button>
         </div>
       </div>
     </PageWrapper>

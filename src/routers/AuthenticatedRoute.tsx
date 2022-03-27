@@ -12,7 +12,7 @@ const AuthenticatedRoute = ({ ...rest }: any) => {
   } else if (isLoggedIn === false) {
     return (
       <Redirect
-        to={`/sign`}
+        to={`/sign-in`}
       />
     );
   } else {
