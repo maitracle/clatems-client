@@ -4,6 +4,7 @@ import { ArtworkType } from 'store/Artwork/types'
 import Span3 from 'components/typographies/Span3'
 import H2 from 'components/typographies/H2'
 import { FontWeights } from 'styles/fonts'
+import StyledLink from 'components/StyledLink'
 
 
 type Props = {
@@ -12,35 +13,38 @@ type Props = {
 
 const ArtworkItem = ({ artwork }: Props) => {
   return (
-    <Wrapper>
-      <div>
-        <Image src={artwork.imageUrl} alt='artwork' />
-      </div>
-      <ContentsWrapper>
-        <H2>{artwork.title}</H2>
-        <DescriptionWrapper>
-          <Span3>
-            {artwork.description}
-          </Span3>
-        </DescriptionWrapper>
+    <StyledLink to={`/artworks/${artwork.id}`}>
+      <Wrapper>
+        <div>
+          <Image src={artwork.imageUrl} alt='artwork' />
+        </div>
+        <ContentsWrapper>
+          <H2>{artwork.title}</H2>
+          <DescriptionWrapper>
+            <Span3>
+              {artwork.description}
+            </Span3>
+          </DescriptionWrapper>
 
-        <Label>
-          <Span3 fontWeight={FontWeights.bold}>
-            작가
-          </Span3>
-        </Label>
-        <AuthorContentsWrapper>
-          <Span3>
-            {artwork.authorName}
-          </Span3>
-        </AuthorContentsWrapper>
-        <AuthorContentsWrapper>
-          <Span3>
-            {artwork.authorDescription}
-          </Span3>
-        </AuthorContentsWrapper>
-      </ContentsWrapper>
-    </Wrapper>
+          <Label>
+            <Span3 fontWeight={FontWeights.bold}>
+              작가
+            </Span3>
+          </Label>
+          <AuthorContentsWrapper>
+            <Span3>
+              {artwork.authorName}
+            </Span3>
+          </AuthorContentsWrapper>
+          <AuthorContentsWrapper>
+            <Span3>
+              {artwork.authorDescription}
+            </Span3>
+          </AuthorContentsWrapper>
+        </ContentsWrapper>
+      </Wrapper>
+    </StyledLink>
+
   )
 }
 
