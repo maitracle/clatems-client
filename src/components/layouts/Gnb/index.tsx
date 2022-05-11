@@ -72,6 +72,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: solid 1px #dee2e6;
 `;
 
 const LeftIconImage = styled.img`
