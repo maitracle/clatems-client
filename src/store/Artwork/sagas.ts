@@ -4,7 +4,9 @@ import {
   CREATE_ARTWORK_REQUEST,
   createArtwork,
   FETCH_ARTWORK_LIST_REQUEST,
+  FETCH_ARTWORK_REQUEST,
   FETCH_MY_ARTWORK_LIST_REQUEST,
+  fetchArtwork,
   fetchArtworkList,
 } from './actions'
 import { CreateArtworkPayload } from './types'
@@ -59,8 +61,25 @@ function* fetchMyArtworkListAsync() {
   }
 }
 
+const fetchArtworkApi = (artworkId: Number) => request({
+  url: `/artworks/${artworkId}`,
+  method: 'GET',
+})
+
+function* fetchArtworkAsync(action: ReturnType<typeof fetchArtwork.request>) {
+  try {
+    const response = yield call(fetchArtworkApi, action.payload)
+
+    yield put(fetchArtwork.success(response.data))
+  } catch (e) {
+
+    yield put(fetchArtwork.failure())
+  }
+}
+
 export function* watchArtwork() {
   yield takeEvery(CREATE_ARTWORK_REQUEST, createArtworkAsync)
   yield takeEvery(FETCH_ARTWORK_LIST_REQUEST, fetchArtworkListAsync)
   yield takeEvery(FETCH_MY_ARTWORK_LIST_REQUEST, fetchMyArtworkListAsync)
+  yield takeEvery(FETCH_ARTWORK_REQUEST, fetchArtworkAsync)
 }
