@@ -22,10 +22,6 @@ const ArtworkList = ({ fetchAction }: Props) => {
 
   return (
     <Wrapper>
-      <Label>
-        this is artwork list module
-      </Label>
-
       {artworkList.map((artwork) => {
         return <ArtworkItem key={artwork.id} artwork={artwork} />
       })}
