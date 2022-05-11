@@ -20,6 +20,7 @@ function* signUpAsync(action: ReturnType<typeof signUp.request>) {
     setAuthToken(response.data.token)
 
     yield put(fetchMyUser.success(response.data.user))
+    window.location.href = '/'
   } catch (e) {
     setHttpHeader('Authorization', null)
     setAuthToken('')
@@ -42,6 +43,7 @@ function* signInAsync(action: ReturnType<typeof signIn.request>) {
     setAuthToken(response.data.token)
 
     yield put(fetchMyUser.success(response.data.user))
+    window.location.href = '/'
   } catch (e) {
     setHttpHeader('Authorization', null)
     setAuthToken('')
