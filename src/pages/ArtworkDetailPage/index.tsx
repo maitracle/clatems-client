@@ -5,10 +5,11 @@ import ArtworkDetail from 'modules/ArtworkDetail'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchArtwork } from 'store/Artwork/actions'
+import Gnb from 'components/layouts/Gnb'
 
 
 const ArtworkDetailPage = () => {
-  const {artworkId} = useParams<{ artworkId: string }>()
+  const { artworkId } = useParams<{ artworkId: string }>()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const ArtworkDetailPage = () => {
 
   return (
     <PageWrapper>
+      <Gnb isMainPage title={{ isLogo: true, text: '' }} />
       <ArtworkDetail />
     </PageWrapper>
   )

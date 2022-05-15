@@ -54,13 +54,15 @@ const Wrapper = styled.div`
   border-bottom: solid 1px lightgray;
 `
 
-const Image = styled.img`
-  height: 150px;
-`
-
 const ContentsWrapper = styled.div`
   margin-left: 10px;
   flex: 1 1 0;
+`
+
+const Image = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
 `
 
 const DescriptionWrapper = styled.div`

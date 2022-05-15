@@ -1,11 +1,13 @@
-import React, { ChangeEvent, useState } from 'react';
-import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
-import { SignRequestPayload } from 'store/user/types';
-import { signIn, signUp } from 'store/user/actions';
-import Input from 'components/forms/Input';
-import { GrayColors } from 'styles/colors';
-import Button from 'components/Button';
+import React, { ChangeEvent, useState } from 'react'
+import styled from '@emotion/styled'
+import { useDispatch } from 'react-redux'
+import { SignRequestPayload } from 'store/user/types'
+import { signIn, signUp } from 'store/user/actions'
+import Input from 'components/forms/Input'
+import { GrayColors } from 'styles/colors'
+import Button from 'components/Button'
+import StyledLink from 'components/StyledLink'
+import Caption1 from 'components/typographies/Caption1'
 
 
 enum SignRequestPayloadKeys {
@@ -20,24 +22,24 @@ type Props = {
 }
 
 const SignForm = ({ signAction }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState<SignRequestPayload>({
     email: '',
     password: '',
-  });
+  })
 
   const setFormDataFactory = (key: SignRequestPayloadKeys) => (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => {
       return {
         ...prev,
         [key]: e.target.value,
-      };
-    });
-  };
+      }
+    })
+  }
 
   const handleSignAction = () => {
-    dispatch(signAction.request(formData));
-  };
+    dispatch(signAction.request(formData))
+  }
 
   return (
     <Wrapper>
@@ -60,6 +62,11 @@ const SignForm = ({ signAction }: Props) => {
           onChange={setFormDataFactory(SignRequestPayloadKeys.password)}
         />
       </InputWrapper>
+      {signAction === signIn && <StyledLink to={'/sign-up'}>
+        <Caption1 fontColor={GrayColors.gray800} underline>
+          회원가입
+        </Caption1>
+      </StyledLink>}
 
       <ButtonWrapper>
         <Button onClick={handleSignAction}>
@@ -68,12 +75,12 @@ const SignForm = ({ signAction }: Props) => {
         </Button>
       </ButtonWrapper>
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled.div`
   padding: 0 20px;
-`;
+`
 
 const Label = styled.div`
   margin-top: 31px;
@@ -82,14 +89,14 @@ const Label = styled.div`
   line-height: 18px;
   letter-spacing: -0.01em;
   color: ${GrayColors.gray500};
-`;
+`
 
 const InputWrapper = styled.div`
   margin-top: 8px;
-`;
+`
 
 const ButtonWrapper = styled.div`
   margin-top: 100px;
-`;
+`
 
-export default SignForm;
+export default SignForm
