@@ -8,9 +8,12 @@ import { clearArtworkReducer, createArtwork } from 'store/Artwork/actions'
 import Input from 'components/forms/Input'
 import Button from 'components/Button'
 import H3 from 'components/typographies/H3'
+import H2 from 'components/typographies/H2'
+import { useHistory } from 'react-router-dom'
 
 
 const CreateArtwork = () => {
+  const history = useHistory()
   const { isSuccessCreateArtwork } = useSelector((state: RootState) => state.artwork)
   const dispatch = useDispatch()
   const [imageInfo, setImageInfo] = useState<{
@@ -99,9 +102,10 @@ const CreateArtwork = () => {
   }
 
   const storeNFT = async () => {
-    setIsCreating(true)
-
     if (process.env.REACT_APP_NFT_STORAGE_KEY && !!imageInfo.image && imageInfo.title && imageInfo.description) {
+      window.scrollTo(0, 0);
+      setIsCreating(true)
+
       const imageUrl = await uploadImage()
       const metadataUrl = await uploadMetadata(imageUrl)
 
@@ -120,11 +124,12 @@ const CreateArtwork = () => {
     if (isSuccessCreateArtwork === true) {
       alert('artwork 생성 성공')
       setIsCreating(false)
+      history.push('/artworks/my')
     } else if (isSuccessCreateArtwork === false) {
       alert('artwork 생성 실패')
       setIsCreating(false)
     }
-  }, [isSuccessCreateArtwork])
+  }, [isSuccessCreateArtwork, history])
 
   useEffect(() => {
     return () => {
@@ -134,6 +139,17 @@ const CreateArtwork = () => {
 
   return (
     <Wrapper>
+      {isCreating && <>
+        <Disabler />
+        <DisablerContents>
+          <H2 fontColor={GrayColors.gray800}>
+            토큰을 생성중입니다.
+          </H2>
+          <H2 fontColor={GrayColors.gray800}>
+            잠시 기다려주세요.
+          </H2>
+        </DisablerContents>
+      </>}
       <LabelWrapper>
         <ImageInput type='file' id='image' onChange={handleFile} />
         <ImageUploadLabel htmlFor='image'>
@@ -222,6 +238,25 @@ const ImageInput = styled.input`
 
 const ButtonWrapper = styled.div`
   margin-top: 100px;
+`
+
+const Disabler = styled.div`
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.5;
+  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+`
+
+const DisablerContents = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background-color: white;
 `
 
 export default CreateArtwork

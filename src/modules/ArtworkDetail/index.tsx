@@ -12,7 +12,6 @@ const ArtworkDetail = () => {
 
   return (
     <Wrapper>
-      <Gnb isMainPage title={{ isLogo: true, text: '' }} />
       <Image src={retrieveArtwork.imageUrl} alt='artwork' />
 
       <H1>
