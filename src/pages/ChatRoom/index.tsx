@@ -14,6 +14,7 @@ enum ChatStep {
 const ChatRoom = () => {
   const [chatStep, setChatStep] = useState<ChatStep>(ChatStep.SETTING_USERNAME)
   const [stompClient, setStompClient] = useState<any>(null)
+  // const [receivedMsg, setReceivedMsg] = useState<MessageType>()
 
   const [username, setUsername] = useState("");
   const onChangeUsername = (event: React.FormEvent<HTMLInputElement>) => {
@@ -32,7 +33,9 @@ const ChatRoom = () => {
     );
   }
 
-  const onMessageReceived = () => {
+  const onMessageReceived = (message: any) => {
+    console.log("JSON:", JSON.parse(message.body))
+    // setReceivedMsg(JSON.parse(message.body))
   }
 
   const onConnected = () => {
@@ -66,7 +69,7 @@ const ChatRoom = () => {
       }
 
       {
-        chatStep === ChatStep.CHATTING && <ChatBox stompClient={stompClient} username={username} />
+        chatStep === ChatStep.CHATTING && <ChatBox stompClient={stompClient} username={username}/>
       }
     </PageWrapper>
   )
