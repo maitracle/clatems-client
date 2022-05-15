@@ -7,40 +7,22 @@ import Stomp from 'stompjs';
 const ChatRoom = () => {
   const [stompClient, setStompClient] = useState<any>(null)
 
-  // username input
-  const [value, setValue] = useState("");
-  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setValue(value)
+  const [username, setUsername] = useState("");
+  const onChangeUsername = (event: React.FormEvent<HTMLInputElement>) => {
+    setUsername(event.currentTarget.value)
   };
   
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(value);
-  }
-  
-  //message input
   const [message, setMessage] = useState("");
   const onChangeMsg = (event: React.FormEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setMessage(value)
+    setMessage(event.currentTarget.value)
   };
-  
-  const onSubmitMsg = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(message);
-  }
 
   useEffect(() => {
     var socket = new SockJS('/ws');
     setStompClient(Stomp.over(socket))
   }, [])
 
-  const setUsername = () => {
+  const connectChatRoom = () => {
     stompClient.connect({},
       onConnected,
       () => {}
@@ -57,7 +39,7 @@ const ChatRoom = () => {
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
       {},
-      JSON.stringify({sender: 'username test', type: 'JOIN'})
+      JSON.stringify({sender: username, type: 'JOIN'})
     )
   }
 
@@ -66,37 +48,32 @@ const ChatRoom = () => {
 
     stompClient.send("/chat.sendMessage",
       {},
-      JSON.stringify({sender: value, type: 'CHAT', content: message})
+      JSON.stringify({sender: username, type: 'CHAT', content: message})
     )
   }
 
-
-
   return (
     <PageWrapper>
-      <form onSubmit={onSubmit}>
-        <input
-          value={value}
-          onChange={onChange}
-          type="text"
-          placeholder="username"
-        />
-        <button onClick={setUsername}>
-          set username
-        </button>
-      </form>
+      <input
+        value={username}
+        onChange={onChangeUsername}
+        type="text"
+        placeholder="username"
+      />
+      <button onClick={connectChatRoom}>
+        접속하기
+      </button>
 
-      <form onSubmit={onSubmitMsg}>
-        <input
-          value={message}
-          onChange={onChangeMsg}
-          type="text"
-          placeholder="message"
-        />
-        <button onClick={sendMessage}>
-          send message
-        </button>
-      </form>
+
+      <input
+        value={message}
+        onChange={onChangeMsg}
+        type="text"
+        placeholder="message"
+      />
+      <button onClick={sendMessage}>
+        send message
+      </button>
     </PageWrapper>
   )
 }
