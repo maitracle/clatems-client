@@ -15,22 +15,24 @@ type Props = {
   fontWeight?: FontWeights;
   fontColor?: ThemeColors | GrayColors;
   type?: IconType;
+  underline?: boolean;
 }
 
-const Caption1 = ({ children, fontWeight = FontWeights.regular, fontColor = GrayColors.gray900, type }: Props) => {
+const Caption1 = ({ children, fontWeight = FontWeights.regular, fontColor = GrayColors.gray900, type, underline=false }: Props) => {
   return (<IconWrapper type={type}>
-    <Caption1Style type={type} fontWeight={fontWeight} fontColor={fontColor}>
+    <Caption1Style type={type} fontWeight={fontWeight} fontColor={fontColor} underline={underline}>
       {children}
     </Caption1Style>
   </IconWrapper>);
 };
 
-const Caption1Style = styled.span<{ fontWeight: FontWeights, type: IconType | undefined, fontColor: ThemeColors | GrayColors }>`
+const Caption1Style = styled.span<{ fontWeight: FontWeights, type: IconType | undefined, fontColor: ThemeColors | GrayColors, underline: boolean }>`
   font-weight: ${(props) => props.fontWeight};
   font-size: 10px;
   line-height: 14px;
   letter-spacing: -0.01em;
   color: ${(props) => props.type ? ThemeColors.Warning : props.fontColor};
+  ${(props) => props.underline ? 'text-decoration: underline' : ''};
 `;
 
 const IconWrapper = styled.div<{ type: IconType | undefined }>`

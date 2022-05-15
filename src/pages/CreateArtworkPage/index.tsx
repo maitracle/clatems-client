@@ -5,6 +5,8 @@ import axios from 'axios'
 import { clearArtworkReducer, createArtwork } from 'store/Artwork/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store'
+import Gnb from 'components/layouts/Gnb'
+import PageTitle from 'components/layouts/PageTitle'
 
 
 const CreateArtworkPage = () => {
@@ -119,9 +121,9 @@ const CreateArtworkPage = () => {
 
   return (
     <PageWrapper>
+      <Gnb isMainPage title={{ isLogo: true, text: '' }} />
+      <PageTitle title='작품 등록' />
       <div>
-        this is create artwork page
-
         <div>
           <input type='file' onChange={handleFile} />
         </div>
