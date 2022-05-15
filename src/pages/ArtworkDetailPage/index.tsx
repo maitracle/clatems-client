@@ -8,7 +8,7 @@ import { fetchArtwork } from 'store/Artwork/actions'
 
 
 const ArtworkDetailPage = () => {
-  const {artworkId} = useParams<{ artworkId: string }>()
+  const { artworkId } = useParams<{ artworkId: string }>()
   const dispatch = useDispatch()
 
   useEffect(() => {
