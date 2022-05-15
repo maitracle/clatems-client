@@ -4,6 +4,7 @@ import ChatBox from 'modules/Chat/ChatBox'
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import Gnb from 'components/layouts/Gnb'
+import { MessageType } from 'modules/Chat/MessageItem';
 
 
 enum ChatStep {
@@ -14,7 +15,7 @@ enum ChatStep {
 const ChatRoom = () => {
   const [chatStep, setChatStep] = useState<ChatStep>(ChatStep.SETTING_USERNAME)
   const [stompClient, setStompClient] = useState<any>(null)
-  // const [receivedMsg, setReceivedMsg] = useState<MessageType>()
+  const [receivedMessageList, setReceivedMessageList] = useState<MessageType[]>([])
 
   const [username, setUsername] = useState("");
   const onChangeUsername = (event: React.FormEvent<HTMLInputElement>) => {
@@ -34,8 +35,9 @@ const ChatRoom = () => {
   }
 
   const onMessageReceived = (message: any) => {
-    console.log("JSON:", JSON.parse(message.body))
-    // setReceivedMsg(JSON.parse(message.body))
+    setReceivedMessageList((prev) => {
+      return [...prev, JSON.parse(message.body)]
+    })
   }
 
   const onConnected = () => {
@@ -69,7 +71,7 @@ const ChatRoom = () => {
       }
 
       {
-        chatStep === ChatStep.CHATTING && <ChatBox stompClient={stompClient} username={username}/>
+        chatStep === ChatStep.CHATTING && <ChatBox stompClient={stompClient} username={username} receivedMessageList={receivedMessageList} />
       }
     </PageWrapper>
   )

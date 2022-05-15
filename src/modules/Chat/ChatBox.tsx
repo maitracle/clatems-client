@@ -8,17 +8,18 @@ import MessageItem, { MessageType } from './MessageItem';
 type Props = {
   stompClient: any;
   username: string;
+  receivedMessageList: MessageType[];
 }
 
-const mockData: MessageType[] = [
-  {type: 'JOIN', content: '', sender: 'user1'},
-  {type: 'CHAT', content: 'message11111', sender: 'user1'},
-  {type: 'CHAT', content: 'message222222', sender: 'user1'},
-  {type: 'CHAT', content: 'message3333333', sender: 'me'},
-  {type: 'LEAVE', content: '', sender: 'user1'},
-]
+// const mockData: MessageType[] = [
+//   {type: 'JOIN', content: '', sender: 'user1'},
+//   {type: 'CHAT', content: 'message11111', sender: 'user1'},
+//   {type: 'CHAT', content: 'message222222', sender: 'user1'},
+//   {type: 'CHAT', content: 'message3333333', sender: 'me'},
+//   {type: 'LEAVE', content: '', sender: 'user1'},
+// ]
 
-const ChatBox = ({ stompClient, username }: Props) => {
+const ChatBox = ({ stompClient, username, receivedMessageList }: Props) => {
   const [message, setMessage] = useState("");
   const onChangeMsg = (event: React.FormEvent<HTMLInputElement>) => {
     setMessage(event.currentTarget.value)
@@ -34,7 +35,7 @@ const ChatBox = ({ stompClient, username }: Props) => {
 
   return (
     <PageWrapper>
-      {mockData.map((receivedMsg, index) => {
+      {receivedMessageList.map((receivedMsg, index) => {
         return <MessageItem key={index} message={receivedMsg} username={username} />
       })}
 
