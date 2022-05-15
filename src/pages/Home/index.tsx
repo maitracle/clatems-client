@@ -3,7 +3,6 @@ import PageWrapper from 'components/layouts/PageWrapper'
 import {fetchArtworkList} from 'store/Artwork/actions'
 import ArtworkList from 'modules/ArtworkList'
 import Gnb from 'components/layouts/Gnb'
-import ChatRoom from "../ChatRoom";
 
 
 const Home = () => {
@@ -11,7 +10,6 @@ const Home = () => {
         <PageWrapper>
             <Gnb isMainPage title={{isLogo: true, text: ''}}/>
 
-            <ChatRoom/>
             <ArtworkList fetchAction={fetchArtworkList}/>
         </PageWrapper>
     )

@@ -3,6 +3,7 @@ import PageWrapper from 'components/layouts/PageWrapper'
 import ChatBox from 'modules/Chat/ChatBox'
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import Gnb from 'components/layouts/Gnb'
 
 
 enum ChatStep {
@@ -49,6 +50,7 @@ const ChatRoom = () => {
 
   return (
     <PageWrapper>
+      <Gnb isMainPage title={{isLogo: true, text: ''}}/>
       {
         chatStep === ChatStep.SETTING_USERNAME && <>
             <input
