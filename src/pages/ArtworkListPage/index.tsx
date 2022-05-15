@@ -8,8 +8,6 @@ import { fetchArtworkList } from 'store/Artwork/actions'
 const ArtworkListPage = () => {
   return (
     <PageWrapper>
-      this is artwork list
-
       <ArtworkList fetchAction={fetchArtworkList} />
     </PageWrapper>
   )

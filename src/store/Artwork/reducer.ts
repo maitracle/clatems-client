@@ -4,14 +4,30 @@ import {
   CLEAR_ARTWORK_REDUCER,
   CREATE_ARTWORK_FAILURE,
   CREATE_ARTWORK_SUCCESS,
+  FETCH_ARTWORK_FAILURE,
   FETCH_ARTWORK_LIST_FAILURE,
   FETCH_ARTWORK_LIST_SUCCESS,
+  FETCH_ARTWORK_SUCCESS,
 } from './actions'
 
+
+const initialRetrieveArtwork = {
+  id: 0,
+  title: '',
+  description: '',
+  metadataUrl: '',
+  authorName: '',
+  authorDescription: '',
+  imageUrl: '',
+  transactionHash: '',
+  createdAt: '',
+  updatedAt: '',
+}
 
 const initialState: ArtworkStateType = {
   isSuccessCreateArtwork: null,
   artworkList: [],
+  retrieveArtwork: initialRetrieveArtwork,
 }
 
 const artworkReducer = createReducer<ArtworkStateType, ArtworkActions>(initialState, {
@@ -37,6 +53,18 @@ const artworkReducer = createReducer<ArtworkStateType, ArtworkActions>(initialSt
     return {
       ...state,
       artworkList: [],
+    }
+  },
+  [FETCH_ARTWORK_SUCCESS]: (state, action) => {
+    return {
+      ...state,
+      retrieveArtwork: action.payload,
+    }
+  },
+  [FETCH_ARTWORK_FAILURE]: (state) => {
+    return {
+      ...state,
+      retrieveArtwork: initialRetrieveArtwork,
     }
   },
   [CLEAR_ARTWORK_REDUCER]: () => {
