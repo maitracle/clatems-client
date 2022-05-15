@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import PageWrapper from 'components/layouts/PageWrapper'
+import ChatBox from 'modules/Chat/ChatBox'
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 
+enum ChatStep {
+  SETTING_USERNAME = 'SETTING_USERNAME',
+  CHATTING = 'CHATTING',
+}
+
 const ChatRoom = () => {
+  const [chatStep, setChatStep] = useState<ChatStep>(ChatStep.SETTING_USERNAME)
   const [stompClient, setStompClient] = useState<any>(null)
 
   const [username, setUsername] = useState("");
   const onChangeUsername = (event: React.FormEvent<HTMLInputElement>) => {
     setUsername(event.currentTarget.value)
-  };
-  
-  const [message, setMessage] = useState("");
-  const onChangeMsg = (event: React.FormEvent<HTMLInputElement>) => {
-    setMessage(event.currentTarget.value)
   };
 
   useEffect(() => {
@@ -41,39 +43,29 @@ const ChatRoom = () => {
       {},
       JSON.stringify({sender: username, type: 'JOIN'})
     )
-  }
 
-  const sendMessage = () => {
-    const content = "some content"
-
-    stompClient.send("/chat.sendMessage",
-      {},
-      JSON.stringify({sender: username, type: 'CHAT', content: message})
-    )
+    setChatStep(ChatStep.CHATTING)
   }
 
   return (
     <PageWrapper>
-      <input
-        value={username}
-        onChange={onChangeUsername}
-        type="text"
-        placeholder="username"
-      />
-      <button onClick={connectChatRoom}>
-        접속하기
-      </button>
+      {
+        chatStep === ChatStep.SETTING_USERNAME && <>
+            <input
+              value={username}
+              onChange={onChangeUsername}
+              type="text"
+              placeholder="username"
+            />
+            <button onClick={connectChatRoom}>
+              접속하기
+            </button>
+        </>
+      }
 
-
-      <input
-        value={message}
-        onChange={onChangeMsg}
-        type="text"
-        placeholder="message"
-      />
-      <button onClick={sendMessage}>
-        send message
-      </button>
+      {
+        chatStep === ChatStep.CHATTING && <ChatBox stompClient={stompClient} username={username} />
+      }
     </PageWrapper>
   )
 }
