@@ -6,6 +6,8 @@ import { RootState } from 'store'
 import axios from 'axios'
 import { clearArtworkReducer, createArtwork } from 'store/Artwork/actions'
 import Input from 'components/forms/Input'
+import Button from 'components/Button'
+import H3 from 'components/typographies/H3'
 
 
 const CreateArtwork = () => {
@@ -25,6 +27,8 @@ const CreateArtwork = () => {
     authorDescription: '',
   })
 
+  const [previewImageUrl, setPreviewImageUrl] = useState<any>('')
+
   const [isCreating, setIsCreating] = useState(false)
 
   const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +37,16 @@ const CreateArtwork = () => {
     }
 
     const file = e.target.files[0]
+
+    var reader = new FileReader()
+
+    reader.addEventListener('load', function() {
+      setPreviewImageUrl(reader.result || '')
+      // console.log(1111, reader.result);
+    }, false)
+
+    reader.readAsDataURL(file)
+
     setImageInfo(prev => ({
       ...prev,
       image: file,
@@ -120,9 +134,14 @@ const CreateArtwork = () => {
 
   return (
     <Wrapper>
-      <div>
-        <input type='file' onChange={handleFile} />
-      </div>
+      <LabelWrapper>
+        <ImageInput type='file' id='image' onChange={handleFile} />
+        <ImageUploadLabel htmlFor='image'>
+          {
+            imageInfo.image ? <PreviewImage src={previewImageUrl || ''} /> : <H3>upload image</H3>
+          }
+        </ImageUploadLabel>
+      </LabelWrapper>
 
       <Label>
         작품 이름
@@ -156,12 +175,11 @@ const CreateArtwork = () => {
         <Input name='authorDescription' onChange={handleFieldChange} />
       </InputWrapper>
 
-      <div>
-        <button onClick={storeNFT} disabled={isCreating}>submit</button>
-      </div>
-      <div>
-        <button onClick={uploadImage} disabled={isCreating}>uploadImage</button>
-      </div>
+      <ButtonWrapper>
+        <Button onClick={storeNFT} disabled={isCreating}>
+          NFT 등록하기
+        </Button>
+      </ButtonWrapper>
     </Wrapper>
   )
 }
@@ -181,6 +199,29 @@ const Label = styled.div`
 
 const InputWrapper = styled.div`
   margin-top: 8px;
+`
+
+const LabelWrapper = styled.div`
+  border: solid 1px #868e96;
+  border-radius: 10px;
+  padding: 10px;
+`
+
+const ImageUploadLabel = styled.label`
+  width: 100%;
+  text-align: center;
+`
+
+const PreviewImage = styled.img`
+  width: 100%;
+`
+
+const ImageInput = styled.input`
+  display: none;
+`
+
+const ButtonWrapper = styled.div`
+  margin-top: 100px;
 `
 
 export default CreateArtwork
