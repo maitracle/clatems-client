@@ -9,6 +9,8 @@ import { FontWeights } from 'styles/fonts'
 import StyledLink from 'components/StyledLink'
 import Span3 from 'components/typographies/Span3'
 import { GrayColors } from 'styles/colors'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store'
 
 
 type TitleProps = {
@@ -32,6 +34,7 @@ export enum RightIcons {
 
 const Gnb = ({ hasPrev, title, isMainPage, rightIcon, prevAction, rightIconAction }: GnbProps) => {
   const history = useHistory()
+  const { isLoggedIn } = useSelector((state: RootState) => state.user.authentication)
 
   const prevActionOrHistoryBack = () => {
     if (prevAction) {
@@ -63,10 +66,19 @@ const Gnb = ({ hasPrev, title, isMainPage, rightIcon, prevAction, rightIconActio
       <ContentsWrapper>
         {titleComponent}
         <StyledLink to={'/artworks/create'}>
-          <Span3 fontColor={GrayColors.gray700}>
+          <Span3 fontColor={GrayColors.gray700} underline>
             작품 등록
           </Span3>
         </StyledLink>
+        {
+          isLoggedIn && <>
+            <StyledLink to={'/artworks/my'}>
+              <Span3 fontColor={GrayColors.gray700} underline>
+                내 작품
+              </Span3>
+            </StyledLink>
+          </>
+        }
       </ContentsWrapper>
       <RightIcon onClick={rightIconAction}>
         {rightIcon === RightIcons.TRASH_CAN && <RightIconImage src={DeleteIcon} />}
@@ -93,7 +105,7 @@ const LeftIconImage = styled.img`
 
 const ContentsWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 4px;
 `
 
