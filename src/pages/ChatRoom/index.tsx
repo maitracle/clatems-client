@@ -5,54 +5,100 @@ import Stomp from 'stompjs';
 
 
 const ChatRoom = () => {
-    const [stompClient, setStompClient] = useState<any>(null)
+  const [stompClient, setStompClient] = useState<any>(null)
 
-    useEffect(() => {
-        var socket = new SockJS('/ws');
-        setStompClient(Stomp.over(socket))
-    }, [])
+  // username input
+  const [value, setValue] = useState("");
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+    setValue(value)
+  };
+  
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(value);
+  }
+  
+  //message input
+  const [message, setMessage] = useState("");
+  const onChangeMsg = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+    setMessage(value)
+  };
+  
+  const onSubmitMsg = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(message);
+  }
 
-    const setUsername = () => {
-        stompClient.connect({},
-            onConnected,
-            () => {});
-    }
+  useEffect(() => {
+    var socket = new SockJS('/ws');
+    setStompClient(Stomp.over(socket))
+  }, [])
 
-    const onMessageReceived = () => {
-    }
+  const setUsername = () => {
+    stompClient.connect({},
+      onConnected,
+      () => {}
+    );
+  }
 
-    const onConnected = () => {
-        // Subscribe to the Public Topic
-        stompClient.subscribe('/topic/public', onMessageReceived);
+  const onMessageReceived = () => {
+  }
 
-        // Tell your username to the server
-        stompClient.send("/app/chat.addUser",
-            {},
-            JSON.stringify({sender: 'username test', type: 'JOIN'})
-        )
-    }
+  const onConnected = () => {
+    // Subscribe to the Public Topic
+    stompClient.subscribe('/topic/public', onMessageReceived);
 
-    const sendMessage = () => {
-        const content = "some content"
-
-        stompClient.send("/chat.sendMessage",
-            {},
-            JSON.stringify({sender: 'username test', type: 'CHAT', content: content})
-        )
-    }
-
-
-
-    return (
-        <PageWrapper>
-            <button onClick={setUsername}>
-                set username
-            </button>
-            <button onClick={sendMessage}>
-                send some message
-            </button>
-        </PageWrapper>
+    // Tell your username to the server
+    stompClient.send("/app/chat.addUser",
+      {},
+      JSON.stringify({sender: 'username test', type: 'JOIN'})
     )
+  }
+
+  const sendMessage = () => {
+    const content = "some content"
+
+    stompClient.send("/chat.sendMessage",
+      {},
+      JSON.stringify({sender: value, type: 'CHAT', content: message})
+    )
+  }
+
+
+
+  return (
+    <PageWrapper>
+      <form onSubmit={onSubmit}>
+        <input
+          value={value}
+          onChange={onChange}
+          type="text"
+          placeholder="username"
+        />
+        <button onClick={setUsername}>
+          set username
+        </button>
+      </form>
+
+      <form onSubmit={onSubmitMsg}>
+        <input
+          value={message}
+          onChange={onChangeMsg}
+          type="text"
+          placeholder="message"
+        />
+        <button onClick={sendMessage}>
+          send message
+        </button>
+      </form>
+    </PageWrapper>
+  )
 }
 
 export default ChatRoom
