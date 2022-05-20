@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import Span3 from 'components/typographies/Span3'
-import H2 from 'components/typographies/H2'
-import { FontWeights } from 'styles/fonts'
 
 
 export type MessageType = {
@@ -21,45 +19,32 @@ const MessageItem = ({ message, username }: Props) => {
       <Wrapper>
         {
         message.type === 'JOIN' && <>
-          <DescriptionWrapper>
-              <Span3>
-                {message.sender}(이)가 입장했습니다.
-              </Span3>
-            </DescriptionWrapper>
+          <Span3>
+            {message.sender}(이)가 입장했습니다.
+          </Span3>
         </>
         }
-
         {
-          message.type === 'LEAVE' && <>
-            <DescriptionWrapper>
-              <Span3>
-                {message.sender}(이)가 퇴장했습니다.
-              </Span3>
-            </DescriptionWrapper>
-          </>
+          message.type === 'LEAVE' && <> 
+            <Span3>
+              {message.sender}(이)가 퇴장했습니다.
+            </Span3>
+            </>
         }
         {
           message.type === 'CHAT' && message.sender === username && <>
-            <ContentsWrapper>
-              <h2>나: {message.sender}</h2>
-              <DescriptionWrapper>
-                <Span3>{message.content}</Span3>
-              </DescriptionWrapper>
-            </ContentsWrapper>
+          <MeNameWrapper>{message.sender}</MeNameWrapper>
+          <TextBalloonMe>  
+            <MessageWrapper><Span3>{message.content}</Span3></MessageWrapper>
+          </TextBalloonMe>
           </>
         }
         {
           message.type === 'CHAT' && message.sender !== username && <>
-            <ContentsWrapper>
-              <h2>너: {message.sender}</h2>
-              <DescriptionWrapper>
-                <Span3>{message.content}</Span3>
-              </DescriptionWrapper>
-
-              <SomeDivTag>
-                sdfasdf
-              </SomeDivTag>
-            </ContentsWrapper>
+          <NicknameWrapper>{message.sender}</NicknameWrapper>
+          <TextBalloonYou>
+            <MessageWrapper><Span3>{message.content}</Span3></MessageWrapper>
+          </TextBalloonYou>
           </>
         }
       </Wrapper>
@@ -67,26 +52,43 @@ const MessageItem = ({ message, username }: Props) => {
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  height: 160px;
-  border-bottom: solid 1px lightgray;
+  height: 3rem;
+  padding-left: 1rem;
+`
+const NicknameWrapper = styled.div`
+  font-size: 13px;
+  padding-left: 0.3rem;
+  padding-bottom: 0.3rem;
+  margin-top: 1rem;
+`
+const MeNameWrapper = styled.div`
+  font-size: 13px;
+  padding-left: 10.3rem;
+  padding-bottom: 0.3rem;
+  margin-top: 1rem;
 `
 
-const ContentsWrapper = styled.div`
-  margin-left: 10px;
-  flex: 1 1 0;
+const MessageWrapper = styled.div`
+  padding-left: 0.3rem;
 `
 
-const DescriptionWrapper = styled.div`
-  height: 44px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
-const SomeDivTag = styled.div`
-  border: solid 1px red;
+const TextBalloonMe = styled.div`
+  border: none;
+  background: #f3f0ff;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 15px;
+  margin-left: 10rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+`
+
+const TextBalloonYou = styled.div`
+border: none;
+background: #f1f3f5;
+padding: 5px;
+border-radius: 15px;
+margin-right: 10rem;
+margin-bottom: 1rem;
 `
 
 export default MessageItem

@@ -5,14 +5,16 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import Gnb from 'components/layouts/Gnb'
 import { MessageType } from 'modules/Chat/MessageItem';
+import PageTitle from 'components/layouts/PageTitle';
+import styled from '@emotion/styled';
 
 
-enum ChatStep {
+export enum ChatStep {
   SETTING_USERNAME = 'SETTING_USERNAME',
   CHATTING = 'CHATTING',
 }
 
-const ChatRoom = () => {
+export const ChatRoom = () => {
   const [chatStep, setChatStep] = useState<ChatStep>(ChatStep.SETTING_USERNAME)
   const [stompClient, setStompClient] = useState<any>(null)
   const [receivedMessageList, setReceivedMessageList] = useState<MessageType[]>([])
@@ -49,24 +51,31 @@ const ChatRoom = () => {
       {},
       JSON.stringify({sender: username, type: 'JOIN'})
     )
-
     setChatStep(ChatStep.CHATTING)
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      connectChatRoom();
+    }
   }
 
   return (
     <PageWrapper>
       <Gnb isMainPage title={{isLogo: true, text: ''}}/>
+      <PageTitle title='대화하기'/>
       {
         chatStep === ChatStep.SETTING_USERNAME && <>
-            <input
+            <InputWrapper><input
               value={username}
               onChange={onChangeUsername}
               type="text"
               placeholder="username"
-            />
-            <button onClick={connectChatRoom}>
+              onKeyPress={handleKeyPress}
+            /></InputWrapper>
+            <StyledButtonEnter onClick={connectChatRoom}>
               접속하기
-            </button>
+            </StyledButtonEnter>
         </>
       }
 
@@ -78,3 +87,23 @@ const ChatRoom = () => {
 }
 
 export default ChatRoom
+
+const InputWrapper = styled.div`
+  padding-left: 8rem;  
+`
+
+const StyledButtonEnter = styled.button`
+  border: none;
+  padding: 0.375rem;
+  margin-top: 1rem;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  border-radius: 1rem;  
+  background: #f1f3f5;
+  $:hover{
+    text-decoration: underline;
+  }
+  &:active{
+    background-color: #e9ecef;
+  }
+`;
