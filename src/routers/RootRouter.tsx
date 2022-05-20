@@ -9,6 +9,7 @@ import SignInPage from 'pages/SignInPage'
 import ArtworkListPage from 'pages/ArtworkListPage'
 import MyArtworkListPage from 'pages/MyArtworkListPage'
 import ArtworkDetailPage from 'pages/ArtworkDetailPage'
+import ChatRoom from 'pages/ChatRoom'
 
 
 const RootRouter = ({ children }: { children: ReactNode }) => {
@@ -18,6 +19,7 @@ const RootRouter = ({ children }: { children: ReactNode }) => {
       {children}
       <Switch>
         <Route path='/' exact component={Home} />
+        <Route path='/chat' exact component={ChatRoom} />
         <Route path='/sign-up' exact component={SignUpPage} />
         <Route path='/sign-in' exact component={SignInPage} />
         <AuthenticatedRoute path='/artworks/create' exact component={CreateArtworkPage} />
