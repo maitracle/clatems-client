@@ -18,6 +18,8 @@ const H2 = ({ children, fontWeight = FontWeights.regular, fontColor = GrayColors
 };
 
 const H2Style = styled.h2<{ fontWeight: FontWeights, fontColor: ThemeColors | GrayColors }>`
+  overflow: hidden;
+  height: 28px;
   font-weight: ${(props) => props.fontWeight};
   font-size: 20px;
   line-height: 28px;

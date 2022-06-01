@@ -2,7 +2,7 @@ import H1 from 'components/typographies/H1'
 import styled from '@emotion/styled'
 import React, { useMemo } from 'react'
 import PrevActionIcon from 'assets/images/Gnb/PrevActionIcon.svg'
-import DeleteIcon from 'assets/images/Gnb/DeleteIcon.svg'
+import DeleteIcon from 'assets/images/Gnb/Notifications.svg'
 import { useHistory } from 'react-router-dom'
 import Logo from 'components/Logo'
 import { FontWeights } from 'styles/fonts'
@@ -81,7 +81,8 @@ const Gnb = ({ hasPrev, title, isMainPage, rightIcon, prevAction, rightIconActio
         }
       </ContentsWrapper>
       <RightIcon onClick={rightIconAction}>
-        {rightIcon === RightIcons.TRASH_CAN && <RightIconImage src={DeleteIcon} />}
+        <RightIconImage src={DeleteIcon} />
+        {rightIcon === RightIcons.TRASH_CAN && <StyledLink to={'/'} ><RightIconImage src={DeleteIcon} /></StyledLink>}
       </RightIcon>
     </Wrapper>
   )

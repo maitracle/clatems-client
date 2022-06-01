@@ -24,6 +24,9 @@ const ArtworkList = ({ fetchAction }: Props) => {
       {artworkList.map((artwork) => {
         return <ArtworkItem key={artwork.id} artwork={artwork} />
       })}
+      {/*{artworkList.filter(artwork => artwork.id > 16).map((artwork) => {*/}
+      {/*  return <ArtworkItem key={artwork.id} artwork={artwork} />*/}
+      {/*})}*/}
     </Wrapper>
   )
 }
