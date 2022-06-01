@@ -81,8 +81,8 @@ const Gnb = ({ hasPrev, title, isMainPage, rightIcon, prevAction, rightIconActio
         }
       </ContentsWrapper>
       <RightIcon onClick={rightIconAction}>
-        <RightIconImage src={DeleteIcon} />
-        {rightIcon === RightIcons.TRASH_CAN && <StyledLink to={'/'} ><RightIconImage src={DeleteIcon} /></StyledLink>}
+        <StyledLink to={'/chat'} ><RightIconImage src={DeleteIcon} /></StyledLink>
+        {rightIcon === RightIcons.TRASH_CAN && <RightIconImage src={DeleteIcon} />}
       </RightIcon>
     </Wrapper>
   )
